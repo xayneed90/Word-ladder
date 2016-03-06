@@ -63,7 +63,7 @@ public class WordLadderSolver implements Assignment4Interface
     		return true;
     	}
     	int new_index = toWord.length() - 1;
-    	ArrayList<ArrayList<String>> possible_words = dictionary.getPossibleWords(index,fromWord,dictionary.get_same_char_dict(index,fromWord));    	
+    	ArrayList<ArrayList<String>> possible_words = dictionary.get_one_char_diff_words(index,fromWord,dictionary.get_same_char_dict(index,fromWord));    	
     	while(new_index >= 0){
     		if(new_index != index)
     		{   
