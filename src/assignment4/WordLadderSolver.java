@@ -1,6 +1,6 @@
 /*
 Zain Rasheed Rajput (zr2352)
-Katelyn Ge
+Katelyn Ge (kbg488)
 Thurs - 11:30am section
  */
 
@@ -12,11 +12,11 @@ import java.util.List;
 // do not change class name or interface it implements
 public class WordLadderSolver implements Assignment4Interface
 {
-    // delcare class members here.
+    // declare class members here.
 	Dictionary dictionary;
-	//initializes the two arraylists that are used in the word ladder solver
+	//initializes the two ArrayLists that are used in the word ladder solver
 	ArrayList<String> Final_List = new ArrayList<String>();
-	ArrayList<String> Discarded_list = new ArrayList<String>();
+	ArrayList<String> Discarded_List = new ArrayList<String>();
 	boolean Final_result = false;
     // add a constructor for this object. HINT: it would be a good idea to set up the dictionary there
 	public WordLadderSolver(Dictionary d)
@@ -28,11 +28,14 @@ public class WordLadderSolver implements Assignment4Interface
     public List<String> computeLadder(String startWord, String endWord) throws NoSuchLadderException 
     {
     if(startWord.length() != 5 || endWord.length() != 5 || startWord.matches("[a-zA-Z]+") == false || endWord.matches("[a-zA-Z]+") == false){
-		throw new NoSuchLadderException("One or more of the following words was incorrect: " + startWord + " " + endWord);
+    	System.out.println("For the input words \"" + startWord + "\" and \"" + endWord + "\"");
+		throw new NoSuchLadderException("At least one of the words \"" + startWord + "\" and \"" + endWord + "\" are not legitimate 5 letter words from the dictionary");
+	
 	}
-    else if (startWord == endWord){
+    else if (startWord.equals(endWord)){
     	Final_List.add(startWord);
     	Final_List.add(endWord);
+    	System.out.println("For the input words \"" + startWord + "\" and \"" + endWord + "\" the following word ladder was found: ");
     	return Final_List;
     }
 	else{
@@ -42,13 +45,23 @@ public class WordLadderSolver implements Assignment4Interface
 		//calls makeLadder with parameters and an index of -1 in order to denote the first word
 		if(makeLadder(startWord,endWord,-1))
 		{
-			return Final_List;
+			System.out.println("For the input words \"" + startWord + "\" and \"" + endWord + "\" the following word ladder was found:");
+			List<String> temp_List = new ArrayList<String>(Final_List);
+			Final_List.clear();
+			Discarded_List.clear();
+			return temp_List;
+		
 		}
 		else
 		{
-			throw new NoSuchLadderException("There is no possible ladder between these words.");
+			Final_List.clear();
+			Discarded_List.clear();
+			System.out.println("For the input words \"" + startWord + "\" and \"" + endWord + "\"");
+			throw new NoSuchLadderException("There is no word ladder between \""+ startWord + "\" and \"" + endWord + "\"!");
+	
 		}
 	}
+   
 }
 
     @Override
@@ -62,15 +75,15 @@ public class WordLadderSolver implements Assignment4Interface
     	if(toWord.equals(fromWord)){ 
     		return true;
     	}
-    	int new_index = toWord.length() - 1;
+    	int new_index = toWord.length()-1;
     	ArrayList<ArrayList<String>> possible_words = dictionary.get_one_char_diff_words(index,fromWord,dictionary.get_same_char_dict(index,fromWord));    	
-    	while(new_index >= 0){
+    	while(new_index >=0){
     		if(new_index != index)
     		{   
     			int n = 0;
     			while( n < possible_words.get(new_index).size())
     			{
-    				if(!Final_List.contains(possible_words.get(new_index).get(n)) && !Discarded_list.contains(possible_words.get(new_index).get(n)))
+    				if(!Final_List.contains(possible_words.get(new_index).get(n)) && !Discarded_List.contains(possible_words.get(new_index).get(n)))
     				{
     					
 	    				Final_List.add(possible_words.get(new_index).get(n));  				
@@ -79,7 +92,7 @@ public class WordLadderSolver implements Assignment4Interface
 	    				else
 	    				{ 
 	    					Final_List.remove(possible_words.get(new_index).get(n));
-	    					Discarded_list.add(possible_words.get(new_index).get(n));
+	    					Discarded_List.add(possible_words.get(new_index).get(n));
 	    				}
     				}
     				n++;
