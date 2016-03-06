@@ -1,3 +1,9 @@
+/*
+Zain Rasheed Rajput (zr2352)
+Katelyn Ge (kbg488)
+Thurs - 11:30am section
+ */
+
 package assignment4;
 
 import java.io.BufferedReader;
@@ -20,24 +26,56 @@ public class Assign4Driver
 
         // Read file in
         // for each line in the file call compute ladder
-        try 
-        {
-        	//call compute ladder with start word and end word to see if there is a word ladder in between them
-            List<String> result = wordLadderSolver.computeLadder("money", "honey");
-            for(String s: result)
-            {
-            	//print results
-            	System.out.println(s);
-            }
-            System.out.println("**********");
-            
-        } 
-        
-        catch (NoSuchLadderException e) 
-        {
-           e.printStackTrace();
-        }
+		try {
+			FileReader freader = new FileReader(args[0]);
+			BufferedReader reader = new BufferedReader(freader);
+			for (String s = reader.readLine(); s != null; s = reader.readLine()) {
+
+				String[] parts = s.split("\\s+"); //splits line by spaces
+				if (parts.length != 2)
+				{
+					System.err.println("Error: input line incorrect");
+				}
+				String startWord = parts[0];
+				String endWord = parts[1];
+				 try 
+			        {
+			        	//call compute ladder with start word and end word to see if there is a word ladder in between them
+			            List<String> result = wordLadderSolver.computeLadder(startWord, endWord);
+			            int count = 0;
+			            for(int x=0; x<result.size();x++)
+			            {
+			            	//print results
+			            	System.out.print(result.get(x) + " ");
+			            	count++;
+			            	if (count%20 == 0)
+			            		System.out.println();
+			            
+			            }
+			            System.out.println();
+			            System.out.println("**********");
+			         result.clear();
+					 
+			            
+			        } 
+			        catch (NoSuchLadderException e) 
+			        {
+			           e.printStackTrace();
+			        }
+				 
+			}
+		} catch (FileNotFoundException e) {
+			System.err.println("Error: File not found. Exiting...");
+			e.printStackTrace();
+			System.exit(-1);
+		} catch (IOException e) {
+			System.err.println("Error: IO exception. Exiting...");
+			e.printStackTrace();
+			System.exit(-1);
+		} 
+		
     }
+    
 	
 	/**
 	 * Opens the file specified in String filename, reads each line in it
