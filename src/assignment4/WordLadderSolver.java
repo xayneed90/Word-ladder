@@ -26,9 +26,12 @@ public class WordLadderSolver implements Assignment4Interface
     // do not change signature of the method implemented from the interface
     @Override
     public List<String> computeLadder(String startWord, String endWord) throws NoSuchLadderException 
-    {
-    if(startWord.length() != 5 || endWord.length() != 5 || startWord.matches("[a-zA-Z]+") == false || endWord.matches("[a-zA-Z]+") == false){
-    	System.out.println("For the input words \"" + startWord + "\" and \"" + endWord + "\"");
+    { 
+    //check to see if startWord and endWord are five letters and are in the dictionary
+    if (startWord.length() != 5 || endWord.length() != 5 || startWord.matches("[a-zA-Z]+") == false
+				|| endWord.matches("[a-zA-Z]+") == false || !dictionary.current_dict.contains(startWord)
+				|| !dictionary.current_dict.contains(endWord)) 	{
+		System.out.println("For the input words \"" + startWord + "\" and \"" + endWord + "\"");
 		throw new NoSuchLadderException("At least one of the words \"" + startWord + "\" and \"" + endWord + "\" are not legitimate 5 letter words from the dictionary");
 	
 	}
